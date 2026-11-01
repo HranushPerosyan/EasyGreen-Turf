@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +34,6 @@
 
         /* ============================================
            COLOR VARIABLES
-           Deep forest green, fresh green, soft mint, clean whites
            ============================================ */
         :root {
             --deep-green: #1a4d2e;
@@ -52,7 +50,6 @@
 
         /* ============================================
            NAVIGATION BAR
-           Fixed, glass-morphism effect with blur
            ============================================ */
         nav {
             position: fixed;
@@ -77,6 +74,7 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            z-index: 1002;
         }
 
         .logo-img {
@@ -90,7 +88,10 @@
             transform: scale(1.05);
         }
 
-        /* Navigation links */
+        /* ============================================
+           DESKTOP NAVIGATION LINKS
+           Hidden on mobile, shown on desktop
+           ============================================ */
         .nav-links {
             display: flex;
             gap: 35px;
@@ -106,7 +107,6 @@
             transition: color 0.3s ease;
         }
 
-        /* Underline hover effect */
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -127,9 +127,219 @@
         }
 
         /* ============================================
+           MOBILE HAMBURGER BUTTON
+           Hidden on desktop, visible on mobile
+           Uses checkbox hack for toggle (no JS)
+           ============================================ */
+        .menu-toggle {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1002;
+            padding: 0;
+        }
+
+        /* Three bars of the hamburger icon */
+        .hamburger-line {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--deep-green);
+            margin: 5px auto;
+            border-radius: 2px;
+            transition: all 0.35s ease;
+        }
+
+        /* Hover effect on hamburger */
+        .hamburger:hover .hamburger-line {
+            background: var(--fresh-green);
+        }
+
+        /* ============================================
+           MOBILE MENU OVERLAY
+           Full-screen overlay with blurred background
+           Slides in from the right side
+           ============================================ */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow-y: auto;
+        }
+
+        /* Decorative gradient accent */
+        .mobile-menu::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: var(--mint);
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .mobile-menu::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: var(--fresh-green);
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+        }
+
+        /* Mobile menu content */
+        .mobile-menu-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 80px 30px 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .mobile-menu-links li {
+            margin: 8px 0;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s ease;
+        }
+
+        /* Staggered animation when menu opens */
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(1) { transition-delay: 0.15s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(2) { transition-delay: 0.2s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(3) { transition-delay: 0.25s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(4) { transition-delay: 0.3s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(5) { transition-delay: 0.35s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(6) { transition-delay: 0.4s; }
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-links li:nth-child(7) { transition-delay: 0.45s; }
+
+        .mobile-menu-links a {
+            display: block;
+            padding: 15px 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--deep-green);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-menu-links a:hover {
+            background: var(--soft-bg);
+            color: var(--fresh-green);
+            transform: translateX(5px);
+        }
+
+        /* Mobile menu CTA button */
+        .mobile-menu-cta {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.5s;
+        }
+
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu-cta .btn {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        /* Mobile menu contact info */
+        .mobile-menu-contact {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(26, 77, 46, 0.1);
+            opacity: 0;
+            transition: opacity 0.4s ease 0.55s;
+        }
+
+        #menu-toggle:checked ~ .mobile-menu .mobile-menu-contact {
+            opacity: 1;
+        }
+
+        .mobile-menu-contact p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .mobile-menu-contact a {
+            color: var(--fresh-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           HAMBURGER ANIMATION
+           Transforms to X when menu is open
+           ============================================ */
+        #menu-toggle:checked ~ nav .hamburger .hamburger-line:nth-child(1) {
+            transform: translateY(7.5px) rotate(45deg);
+        }
+
+        #menu-toggle:checked ~ nav .hamburger .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        #menu-toggle:checked ~ nav .hamburger .hamburger-line:nth-child(3) {
+            transform: translateY(-7.5px) rotate(-45deg);
+        }
+
+        /* Prevent body scroll when menu is open */
+        #menu-toggle:checked ~ .page-wrapper {
+            overflow: hidden;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ============================================
            HERO SECTION
-           Full-screen with background image
-           Text aligned to left with partial blur on text side only
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -145,7 +355,6 @@
             overflow: hidden;
         }
 
-        /* Subtle overall darkening for contrast */
         .hero::before {
             content: '';
             position: absolute;
@@ -154,7 +363,6 @@
             z-index: 1;
         }
 
-        /* Partial blur effect - only on the left side where text is */
         .hero::after {
             content: '';
             position: absolute;
@@ -170,7 +378,6 @@
             z-index: 2;
         }
 
-        /* Hero content - positioned on the left */
         .hero-content {
             position: relative;
             z-index: 3;
@@ -180,7 +387,6 @@
             margin-left: 2%;
         }
 
-        /* Hero logo aligned to the left */
         .hero-logo {
             height: 70px;
             width: auto;
@@ -188,7 +394,6 @@
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
 
-        /* Hero tag without emoji - cleaner look */
         .hero-tag {
             display: inline-block;
             padding: 8px 20px;
@@ -227,7 +432,6 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Buttons aligned to the left */
         .hero-buttons {
             display: flex;
             gap: 15px;
@@ -237,7 +441,6 @@
 
         /* ============================================
            BUTTONS
-           Primary (filled) and secondary (outline) styles
            ============================================ */
         .btn {
             display: inline-block;
@@ -250,6 +453,7 @@
             cursor: pointer;
             border: none;
             letter-spacing: 0.5px;
+            text-align: center;
         }
 
         .btn-primary {
@@ -278,7 +482,6 @@
 
         /* ============================================
            SECTION COMMON STYLES
-           Consistent padding and typography
            ============================================ */
         section {
             padding: 100px 6%;
@@ -319,7 +522,6 @@
 
         /* ============================================
            ABOUT SECTION
-           Two-column layout with image and text
            ============================================ */
         .about {
             background: var(--soft-bg);
@@ -353,7 +555,6 @@
             transform: scale(1.05);
         }
 
-        /* Decorative blurred accent behind image */
         .about-image::before {
             content: '';
             position: absolute;
@@ -404,7 +605,6 @@
 
         /* ============================================
            FEATURES SECTION
-           Grid of feature cards with professional SVG icons
            ============================================ */
         .features-grid {
             display: grid;
@@ -424,7 +624,6 @@
             overflow: hidden;
         }
 
-        /* Gradient accent on hover */
         .feature-card::before {
             content: '';
             position: absolute;
@@ -448,7 +647,6 @@
             transform: scaleX(1);
         }
 
-        /* Professional SVG icon container */
         .feature-icon {
             width: 64px;
             height: 64px;
@@ -459,7 +657,6 @@
             justify-content: center;
             margin-bottom: 22px;
             transition: all 0.4s ease;
-            position: relative;
         }
 
         .feature-icon svg {
@@ -497,14 +694,11 @@
 
         /* ============================================
            OUR WORK / PORTFOLIO SECTION
-           Click to open scrollable modal (pure CSS)
-           Uses checkbox hack - no JavaScript required
            ============================================ */
         .our-work {
             background: var(--soft-bg);
         }
 
-        /* Hidden checkboxes to control modal visibility */
         .modal-toggle {
             display: none;
         }
@@ -518,14 +712,12 @@
             margin: 0 auto;
         }
 
-        /* Varied sizes for visual interest */
         .work-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
         .work-item:nth-child(2) { grid-column: span 5; grid-row: span 1; }
         .work-item:nth-child(3) { grid-column: span 5; grid-row: span 1; }
         .work-item:nth-child(4) { grid-column: span 5; grid-row: span 2; }
         .work-item:nth-child(5) { grid-column: span 7; grid-row: span 1; }
 
-        /* Each work item is now a clickable label */
         .work-item {
             position: relative;
             border-radius: 18px;
@@ -542,7 +734,6 @@
             transition: transform 0.6s ease;
         }
 
-        /* Overlay with project info */
         .work-overlay {
             position: absolute;
             inset: 0;
@@ -571,7 +762,6 @@
             transition: transform 0.4s ease 0.05s;
         }
 
-        /* "View Project" hint indicator */
         .work-overlay .view-hint {
             position: absolute;
             top: 20px;
@@ -611,8 +801,6 @@
 
         /* ============================================
            PROJECT MODAL
-           Full-screen overlay with scrollable content
-           Triggered by checkbox :checked state
            ============================================ */
         .project-modal {
             position: fixed;
@@ -630,7 +818,6 @@
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
-        /* Show modal when corresponding checkbox is checked */
         #modal1:checked ~ .modal-1,
         #modal2:checked ~ .modal-2,
         #modal3:checked ~ .modal-3,
@@ -661,7 +848,6 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Custom scrollbar for modal */
         .modal-content::-webkit-scrollbar {
             width: 8px;
         }
@@ -676,11 +862,6 @@
             border-radius: 10px;
         }
 
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: var(--fresh-green);
-        }
-
-        /* Close button (X) in top-right corner */
         .modal-close {
             position: sticky;
             top: 20px;
@@ -707,7 +888,6 @@
             transform: rotate(90deg);
         }
 
-        /* Modal hero image */
         .modal-hero {
             width: 100%;
             height: 400px;
@@ -742,7 +922,6 @@
             font-size: 1rem;
         }
 
-        /* Modal body content */
         .modal-body {
             padding: 40px;
         }
@@ -795,7 +974,6 @@
             line-height: 1.8;
         }
 
-        /* Gallery grid inside modal */
         .modal-gallery {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -815,7 +993,6 @@
             transform: scale(1.03);
         }
 
-        /* Feature list in modal */
         .modal-features {
             list-style: none;
             display: grid;
@@ -841,7 +1018,6 @@
             font-weight: bold;
         }
 
-        /* CTA button in modal */
         .modal-cta {
             margin-top: 30px;
             padding-top: 30px;
@@ -857,7 +1033,6 @@
 
         /* ============================================
            COMPARISON SECTION
-           Side-by-side natural vs artificial grass
            ============================================ */
         .comparison {
             background: var(--soft-bg);
@@ -958,8 +1133,6 @@
 
         /* ============================================
            FAQ SECTION
-           Using native <details>/<summary> for accordion
-           No JavaScript needed!
            ============================================ */
         .faq-container {
             max-width: 850px;
@@ -980,7 +1153,6 @@
             box-shadow: 0 8px 25px rgba(26, 77, 46, 0.08);
         }
 
-        /* Native details/summary styling */
         .faq-item summary {
             padding: 22px 28px;
             cursor: pointer;
@@ -994,7 +1166,6 @@
             transition: background 0.3s ease;
         }
 
-        /* Remove default marker */
         .faq-item summary::-webkit-details-marker {
             display: none;
         }
@@ -1003,7 +1174,6 @@
             background: var(--soft-bg);
         }
 
-        /* Brand logo icon for each FAQ question */
         .faq-icon {
             width: 42px;
             height: 42px;
@@ -1032,7 +1202,6 @@
             flex: 1;
         }
 
-        /* Plus/minus indicator */
         .faq-toggle {
             width: 30px;
             height: 30px;
@@ -1062,7 +1231,6 @@
 
         /* ============================================
            CONTACT SECTION
-           Clean contact form with blurred background accent
            ============================================ */
         .contact {
             background: var(--soft-bg);
@@ -1070,7 +1238,6 @@
             overflow: hidden;
         }
 
-        /* Decorative blurred blobs */
         .contact::before {
             content: '';
             position: absolute;
@@ -1132,7 +1299,6 @@
             box-shadow: 0 4px 15px rgba(26, 77, 46, 0.08);
         }
 
-        /* Contact form styling */
         .contact-form {
             background: white;
             padding: 45px;
@@ -1183,7 +1349,6 @@
 
         /* ============================================
            FOOTER
-           Enhanced with prominent logo display
            ============================================ */
         footer {
             background: linear-gradient(135deg, var(--deep-green) 0%, #0f3320 100%);
@@ -1194,7 +1359,6 @@
             overflow: hidden;
         }
 
-        /* Decorative blurred accent in footer */
         footer::before {
             content: '';
             position: absolute;
@@ -1226,7 +1390,6 @@
             z-index: 2;
         }
 
-        /* Prominent logo display in footer */
         .footer-logo-wrapper {
             display: flex;
             flex-direction: column;
@@ -1312,7 +1475,6 @@
             width: 100%;
         }
 
-        /* Footer contact info row */
         .footer-contact-row {
             display: flex;
             justify-content: center;
@@ -1350,11 +1512,15 @@
 
         /* ============================================
            RESPONSIVE DESIGN
-           Mobile-first adjustments
            ============================================ */
         @media (max-width: 900px) {
+            /* Hide desktop nav, show hamburger */
             .nav-links {
                 display: none;
+            }
+
+            .hamburger {
+                display: block;
             }
 
             .about-grid,
@@ -1373,18 +1539,16 @@
                 padding: 70px 5%;
             }
 
-            /* Hero responsive - NO BLUR on mobile, clean background image */
+            /* Hero responsive - NO BLUR on mobile */
             .hero {
                 justify-content: center;
                 padding: 100px 5% 50px;
             }
 
-            /* Completely remove the blur effect on mobile */
             .hero::after {
                 display: none;
             }
 
-            /* Keep only the subtle darkening overlay for text readability */
             .hero::before {
                 background: linear-gradient(135deg, rgba(26, 77, 46, 0.35) 0%, rgba(0, 0, 0, 0.45) 100%);
             }
@@ -1413,7 +1577,6 @@
                 padding-left: 28px;
             }
 
-            /* Stack work grid on tablet */
             .work-grid {
                 grid-template-columns: repeat(2, 1fr);
                 grid-auto-rows: 220px;
@@ -1431,7 +1594,6 @@
                 grid-row: span 1;
             }
 
-            /* Modal responsive */
             .modal-hero {
                 height: 280px;
             }
@@ -1442,7 +1604,6 @@
                 grid-template-columns: 1fr;
             }
 
-            /* Footer responsive */
             .footer-contact-row {
                 gap: 20px;
             }
@@ -1495,7 +1656,6 @@
                 grid-column: span 1;
             }
 
-            /* Modal mobile */
             .project-modal {
                 padding: 20px 10px;
             }
@@ -1515,7 +1675,6 @@
                 grid-template-columns: 1fr;
             }
 
-            /* Footer mobile */
             footer {
                 padding: 50px 5% 20px;
             }
@@ -1533,10 +1692,23 @@
                 gap: 15px;
                 align-items: center;
             }
+
+            /* Mobile menu adjustments for small screens */
+            .mobile-menu-links a {
+                font-size: 1.4rem;
+                padding: 12px 15px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- ============================================
+         MOBILE MENU TOGGLE (Checkbox Hack)
+         Hidden checkbox controls mobile menu visibility
+         Must be placed BEFORE nav and mobile-menu as sibling
+         ============================================ -->
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
 
     <!-- ============================================
          NAVIGATION
@@ -1545,6 +1717,8 @@
         <a href="#home" class="logo">
             <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf Logo" class="logo-img">
         </a>
+        
+        <!-- Desktop Navigation -->
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -1554,783 +1728,816 @@
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
+
+        <!-- Hamburger Button (Mobile Only) - label triggers checkbox -->
+        <label for="menu-toggle" class="hamburger" aria-label="Toggle menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </label>
     </nav>
 
     <!-- ============================================
-         HERO SECTION
+         MOBILE MENU OVERLAY
+         Full-screen menu that slides in from the right
+         Clicking any link closes the menu (label targets checkbox)
          ============================================ -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf" class="hero-logo">
-            <span class="hero-tag">PREMIUM ARTIFICIAL GRASS</span>
-            <h1>Transform Your Space Into <span>Evergreen</span> Paradise</h1>
-            <p>Experience the beauty of a lush, green lawn all year round — no watering, no mowing, no hassle. Premium artificial turf crafted for homes, gardens, and commercial spaces.</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Get Free Quote</a>
-                <a href="#features" class="btn btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         ABOUT SECTION
-         ============================================ -->
-    <section class="about" id="about">
-        <div class="about-grid">
-            <div class="about-image">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/modern-australian-home-front-yard-artificial-turf-contemporary-residential-house-grass-lawn-clean-low-410765330.webp?v=1793296543" alt="Modern home with beautiful artificial grass front yard">
-            </div>
-            <div class="about-text">
-                <span class="section-tag">About Us</span>
-                <h2>Bringing Nature's Beauty to Every Surface</h2>
-                <p>At Eazy Green Turf, we believe every space deserves to look its best — without the constant upkeep. Our premium artificial grass solutions combine realistic aesthetics with unmatched durability.</p>
-                <p>With over a decade of experience, we've helped thousands of homeowners, businesses, and sports facilities enjoy beautiful, low-maintenance green spaces that last for years.</p>
-                
-                <div class="about-stats">
-                    <div class="stat">
-                        <h3>10+</h3>
-                        <p>Years Experience</p>
-                    </div>
-                    <div class="stat">
-                        <h3>5K+</h3>
-                        <p>Happy Clients</p>
-                    </div>
-                    <div class="stat">
-                        <h3>15+</h3>
-                        <p>Turf Varieties</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         FEATURES SECTION
-         ============================================ -->
-    <section class="features" id="features">
-        <div class="section-header">
-            <span class="section-tag">Why Choose Us</span>
-            <h2>Benefits That Make a Difference</h2>
-            <p>Discover why thousands of customers trust Eazy Green Turf for their landscaping needs.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                    </svg>
-                </div>
-                <h3>Water Saving</h3>
-                <p>Reduce water usage by up to 100%. No irrigation needed — ever. Save money and the environment.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c.9 6.76-2.33 11.67-7.2 14.04A7 7 0 0 1 11 20z"/>
-                        <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
-                    </svg>
-                </div>
-                <h3>Always Green</h3>
-                <p>Enjoy a vibrant, lush lawn all year round regardless of weather, season, or foot traffic.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                </div>
-                <h3>UV Resistant</h3>
-                <p>Advanced UV protection ensures your turf stays bright and doesn't fade under the sun.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="11" cy="4" r="2"/>
-                        <circle cx="18" cy="8" r="2"/>
-                        <circle cx="4" cy="8" r="2"/>
-                        <circle cx="19" cy="15" r="2"/>
-                        <circle cx="5" cy="15" r="2"/>
-                        <path d="M12 18c-2.5 0-4.5 1.5-4.5 3.5 0 .83.67 1.5 1.5 1.5h6c.83 0 1.5-.67 1.5-1.5 0-2-2-3.5-4.5-3.5z"/>
-                    </svg>
-                </div>
-                <h3>Pet Friendly</h3>
-                <p>Safe for pets and kids. Easy to clean, non-toxic materials, and soft underfoot.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                    </svg>
-                </div>
-                <h3>Easy Install</h3>
-                <p>Professional installation in just one day. Minimal disruption to your daily routine.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="8" r="7"/>
-                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-                        <path d="M12 5v6M9.5 8l2.5 2.5L14.5 8"/>
-                    </svg>
-                </div>
-                <h3>15+ Year Warranty</h3>
-                <p>Backed by an industry-leading 15+ year warranty. Quality you can trust for decades to come.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         OUR WORK / PORTFOLIO SECTION
-         ============================================ -->
-    <section class="our-work" id="work">
-        <div class="section-header">
-            <span class="section-tag">Our Portfolio</span>
-            <h2>Recent Transformations</h2>
-            <p>Browse through some of our latest projects — click any project to view full details.</p>
-        </div>
-
-        <input type="checkbox" id="modal1" class="modal-toggle">
-        <input type="checkbox" id="modal2" class="modal-toggle">
-        <input type="checkbox" id="modal3" class="modal-toggle">
-        <input type="checkbox" id="modal4" class="modal-toggle">
-        <input type="checkbox" id="modal5" class="modal-toggle">
-
-        <div class="work-grid">
-            <label for="modal1" class="work-item">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado Project">
-                <div class="work-overlay">
-                    <span class="view-hint">View Project →</span>
-                    <h3>Front Yard Coronado</h3>
-                    <p>Residential • Tracy, CA</p>
-                </div>
-            </label>
-
-            <label for="modal2" class="work-item">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape Project">
-                <div class="work-overlay">
-                    <span class="view-hint">View Project →</span>
-                    <h3>Garden Landscape</h3>
-                    <p>Residential • Backyard</p>
-                </div>
-            </label>
-
-            <label for="modal3" class="work-item">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Space">
-                <div class="work-overlay">
-                    <span class="view-hint">View Project →</span>
-                    <h3>Modern Outdoor Living</h3>
-                    <p>Residential • Patio</p>
-                </div>
-            </label>
-
-            <label for="modal4" class="work-item">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Turf Installation">
-                <div class="work-overlay">
-                    <span class="view-hint">View Project →</span>
-                    <h3>Commercial Landscape</h3>
-                    <p>Commercial • Office Complex</p>
-                </div>
-            </label>
-
-            <label for="modal5" class="work-item">
-                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Turf Project">
-                <div class="work-overlay">
-                    <span class="view-hint">View Project →</span>
-                    <h3>Poolside Paradise</h3>
-                    <p>Residential • Pool Area</p>
-                </div>
-            </label>
-        </div>
-
-        <!-- Modal 1: Front Yard Coronado -->
-        <div class="project-modal modal-1">
-            <div class="modal-content">
-                <label for="modal1" class="modal-close">✕</label>
-                <div class="modal-hero">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado">
-                    <div class="modal-hero-overlay">
-                        <div class="modal-hero-text">
-                            <h2>Front Yard Coronado</h2>
-                            <p>📍 Tracy, California • Residential</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Client</span>
-                            <span class="meta-value">Coronado Family</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Location</span>
-                            <span class="meta-value">Tracy, CA</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Area</span>
-                            <span class="meta-value">850 sq ft</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Duration</span>
-                            <span class="meta-value">2 Days</span>
-                        </div>
-                    </div>
-
-                    <h3>Project Overview</h3>
-                    <p>The Coronado family wanted to transform their dull, patchy front yard into a welcoming, low-maintenance landscape that would boost curb appeal and save them hours of weekly upkeep. We installed our premium Eazy Green Turf across the entire front lawn, creating a lush, evergreen space that looks stunning year-round.</p>
-                    
-                    <h3>The Challenge</h3>
-                    <p>The existing natural grass was struggling with California's hot summers and water restrictions. Brown patches, uneven growth, and constant watering needs made the front yard an eyesore. The family was spending over 3 hours every weekend just on lawn maintenance.</p>
-
-                    <h3>Our Solution</h3>
-                    <p>We removed the old grass, prepared a proper drainage base, and installed our premium 40mm turf with natural thatch layer. The result is a beautiful, pet-friendly lawn that looks and feels like real grass — without any of the maintenance.</p>
-
-                    <div class="modal-gallery">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 1">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 2">
-                    </div>
-
-                    <h3>Features Installed</h3>
-                    <ul class="modal-features">
-                        <li>Premium 40mm Turf</li>
-                        <li>UV-Stabilized Fibers</li>
-                        <li>Drainage System</li>
-                        <li>Pet-Friendly Materials</li>
-                        <li>Natural Thatch Layer</li>
-                        <li>15-Year Warranty</li>
-                    </ul>
-
-                    <div class="modal-cta">
-                        <p>Love this transformation? Let's create something similar for your space!</p>
-                        <a href="#contact" class="btn btn-primary">Start Your Project</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal 2: Garden Landscape -->
-        <div class="project-modal modal-2">
-            <div class="modal-content">
-                <label for="modal2" class="modal-close">✕</label>
-                <div class="modal-hero">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape">
-                    <div class="modal-hero-overlay">
-                        <div class="modal-hero-text">
-                            <h2>Garden Landscape</h2>
-                            <p>📍 Residential Backyard • Private Garden</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Client</span>
-                            <span class="meta-value">Thompson Residence</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Location</span>
-                            <span class="meta-value">Private Residence</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Area</span>
-                            <span class="meta-value">1,200 sq ft</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Duration</span>
-                            <span class="meta-value">3 Days</span>
-                        </div>
-                    </div>
-
-                    <h3>Project Overview</h3>
-                    <p>The Thompsons envisioned a serene backyard garden retreat where they could relax, entertain, and let their children play safely. We designed and installed a multi-zone artificial turf landscape that blends seamlessly with existing garden features.</p>
-                    
-                    <h3>The Challenge</h3>
-                    <p>The backyard had heavy shade from mature trees, making natural grass nearly impossible to maintain. Mud, bare patches, and constant reseeding were frustrating the family for years.</p>
-
-                    <h3>Our Solution</h3>
-                    <p>We installed our shade-optimized turf that thrives in low-light conditions. Combined with strategic landscaping and proper drainage, we created a beautiful, usable space the family enjoys every day.</p>
-
-                    <div class="modal-gallery">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 1">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
-                    </div>
-
-                    <h3>Features Installed</h3>
-                    <ul class="modal-features">
-                        <li>Shade-Optimized Turf</li>
-                        <li>Multi-Zone Layout</li>
-                        <li>Advanced Drainage</li>
-                        <li>Child-Safe Materials</li>
-                        <li>Custom Contours</li>
-                        <li>15-Year Warranty</li>
-                    </ul>
-
-                    <div class="modal-cta">
-                        <p>Ready to transform your backyard? Let's chat!</p>
-                        <a href="#contact" class="btn btn-primary">Get Free Quote</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal 3: Modern Outdoor Living -->
-        <div class="project-modal modal-3">
-            <div class="modal-content">
-                <label for="modal3" class="modal-close">✕</label>
-                <div class="modal-hero">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Living">
-                    <div class="modal-hero-overlay">
-                        <div class="modal-hero-text">
-                            <h2>Modern Outdoor Living</h2>
-                            <p>📍 Contemporary Patio Design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Client</span>
-                            <span class="meta-value">Martinez Family</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Style</span>
-                            <span class="meta-value">Contemporary</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Area</span>
-                            <span class="meta-value">600 sq ft</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Duration</span>
-                            <span class="meta-value">1 Day</span>
-                        </div>
-                    </div>
-
-                    <h3>Project Overview</h3>
-                    <p>This modern patio project showcases how artificial turf can complement contemporary architecture. The clean lines and lush green surface create a stunning contrast with the home's minimalist design.</p>
-                    
-                    <h3>The Challenge</h3>
-                    <p>The clients wanted a modern outdoor entertaining space that required zero maintenance but looked impeccably manicured at all times — perfect for hosting guests year-round.</p>
-
-                    <h3>Our Solution</h3>
-                    <p>We used our short-pile premium turf with crisp edges and geometric patterns, creating a sleek, modern aesthetic that perfectly complements the home's architecture.</p>
-
-                    <div class="modal-gallery">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 1">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 2">
-                    </div>
-
-                    <h3>Features Installed</h3>
-                    <ul class="modal-features">
-                        <li>Short-Pile Premium Turf</li>
-                        <li>Geometric Design</li>
-                        <li>Seamless Integration</li>
-                        <li>Heavy Traffic Rated</li>
-                        <li>Quick-Dry Technology</li>
-                        <li>15-Year Warranty</li>
-                    </ul>
-
-                    <div class="modal-cta">
-                        <p>Want a modern outdoor space like this?</p>
-                        <a href="#contact" class="btn btn-primary">Start Your Project</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal 4: Commercial Landscape -->
-        <div class="project-modal modal-4">
-            <div class="modal-content">
-                <label for="modal4" class="modal-close">✕</label>
-                <div class="modal-hero">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Landscape">
-                    <div class="modal-hero-overlay">
-                        <div class="modal-hero-text">
-                            <h2>Commercial Landscape</h2>
-                            <p>📍 Office Complex • Corporate Campus</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Client</span>
-                            <span class="meta-value">TechHub Corporate</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Type</span>
-                            <span class="meta-value">Commercial</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Area</span>
-                            <span class="meta-value">5,000 sq ft</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Duration</span>
-                            <span class="meta-value">5 Days</span>
-                        </div>
-                    </div>
-
-                    <h3>Project Overview</h3>
-                    <p>A large-scale commercial installation for a tech company's corporate campus. We transformed multiple outdoor areas including common spaces, walkways, and relaxation zones into beautiful, low-maintenance green areas.</p>
-                    
-                    <h3>The Challenge</h3>
-                    <p>The company was spending over $15,000 annually on lawn maintenance, watering, and reseeding. High foot traffic areas were constantly worn and unsightly, creating a poor first impression for clients.</p>
-
-                    <h3>Our Solution</h3>
-                    <p>We installed our commercial-grade heavy-traffic turf across 5,000 square feet, designed to withstand constant use while maintaining its pristine appearance. The result? A 90% reduction in maintenance costs and a stunning campus that impresses visitors.</p>
-
-                    <div class="modal-gallery">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Project view 1">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 2">
-                    </div>
-
-                    <h3>Features Installed</h3>
-                    <ul class="modal-features">
-                        <li>Commercial-Grade Turf</li>
-                        <li>Heavy Traffic Rated</li>
-                        <li>Fire Retardant</li>
-                        <li>ADA Compliant</li>
-                        <li>Industrial Drainage</li>
-                        <li>15-Year Warranty</li>
-                    </ul>
-
-                    <div class="modal-cta">
-                        <p>Commercial project? We handle projects of any scale.</p>
-                        <a href="#contact" class="btn btn-primary">Request Commercial Quote</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal 5: Poolside Paradise -->
-        <div class="project-modal modal-5">
-            <div class="modal-content">
-                <label for="modal5" class="modal-close">✕</label>
-                <div class="modal-hero">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Paradise">
-                    <div class="modal-hero-overlay">
-                        <div class="modal-hero-text">
-                            <h2>Poolside Paradise</h2>
-                            <p>📍 Residential Pool Area</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Client</span>
-                            <span class="meta-value">Johnson Family</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Location</span>
-                            <span class="meta-value">Pool Surround</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Area</span>
-                            <span class="meta-value">450 sq ft</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Duration</span>
-                            <span class="meta-value">1 Day</span>
-                        </div>
-                    </div>
-
-                    <h3>Project Overview</h3>
-                    <p>The Johnsons wanted to eliminate the muddy, slippery mess around their pool that formed after every swim. Our poolside turf installation provides a safe, beautiful, and always-clean surface around their swimming area.</p>
-                    
-                    <h3>The Challenge</h3>
-                    <p>Traditional pool surrounds get slippery, muddy, and track dirt into the pool. The family was constantly cleaning and dealing with unsafe wet surfaces around the pool edge.</p>
-
-                    <h3>Our Solution</h3>
-                    <p>We installed our specialized pool-grade turf with superior drainage and non-slip backing. The surface stays cool underfoot, drains instantly, and never gets muddy — making the pool area safer and more enjoyable for the whole family.</p>
-
-                    <div class="modal-gallery">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 1">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
-                    </div>
-
-                    <h3>Features Installed</h3>
-                    <ul class="modal-features">
-                        <li>Pool-Grade Turf</li>
-                        <li>Non-Slip Backing</li>
-                        <li>Instant Drainage</li>
-                        <li>Cool-Touch Technology</li>
-                        <li>Chlorine Resistant</li>
-                        <li>15-Year Warranty</li>
-                    </ul>
-
-                    <div class="modal-cta">
-                        <p>Transform your pool area into a paradise!</p>
-                        <a href="#contact" class="btn btn-primary">Get Free Quote</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         COMPARISON SECTION
-         ============================================ -->
-    <section class="comparison" id="compare">
-        <div class="section-header">
-            <span class="section-tag">The Difference</span>
-            <h2>Natural vs Artificial Grass</h2>
-            <p>See why more homeowners are making the switch to artificial turf.</p>
-        </div>
-        <div class="comparison-grid">
-            <div class="comparison-card natural">
-                <div class="comparison-image">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/dry-and-damaged-grass-needs-lawn-care-royalty-free-image-1747944970.avif?v=1793297897" alt="Natural grass needing care">
-                    <span class="comparison-badge badge-natural">Natural Grass</span>
-                </div>
-                <div class="comparison-content">
-                    <h3>Natural Grass</h3>
-                    <ul>
-                        <li>Requires weekly mowing</li>
-                        <li>High water consumption</li>
-                        <li>Needs fertilizers & pesticides</li>
-                        <li>Brown patches in summer</li>
-                        <li>Muddy in rainy seasons</li>
-                        <li>High maintenance cost</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="comparison-card">
-                <div class="comparison-image">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/70123b65a52a1199917a36b68f5a62da.jpg?v=1793541827" alt="Premium artificial grass">
-                    <span class="comparison-badge badge-artificial">Eazy Green Turf</span>
-                </div>
-                <div class="comparison-content">
-                    <h3>Artificial Grass</h3>
-                    <ul>
-                        <li>Zero mowing required</li>
-                        <li>No water needed</li>
-                        <li>Eco-friendly & chemical-free</li>
-                        <li>Always green, all seasons</li>
-                        <li>Perfect drainage system</li>
-                        <li>Low lifetime cost</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
-         FAQ SECTION
-         ============================================ -->
-    <section class="faq" id="faq">
-        <div class="section-header">
-            <span class="section-tag">FAQ</span>
-            <h2>Frequently Asked Questions</h2>
-            <p>Everything you need to know about our artificial grass solutions.</p>
-        </div>
-        <div class="faq-container">
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">How long does artificial grass last?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Our premium artificial grass is designed to last between 15-20 years with proper care. We back our products with an industry-leading 15+ year warranty, ensuring you get long-lasting value for your investment. The UV-stabilized fibers resist fading and wear, keeping your lawn looking fresh year after year.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">Is artificial grass safe for children and pets?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Absolutely! Our artificial turf is made from non-toxic, lead-free materials that are completely safe for children and pets. It's soft underfoot, hypoallergenic, and free from harmful chemicals. Pets love playing on it, and cleanup is easy — just rinse with water.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">How is the artificial grass installed?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Our professional installation process includes: site preparation, base installation with proper drainage, laying the turf, securing seams, and adding infill for a natural feel. Most residential installations are completed in just one day. Our team handles everything from start to finish.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">Does artificial grass get hot in summer?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Like any surface exposed to direct sunlight, artificial grass can warm up. However, our premium turf features advanced cooling technology that keeps it significantly cooler than standard artificial grass. A quick spray of water on hot days instantly cools the surface, making it comfortable to walk on.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">What maintenance does artificial grass require?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Minimal maintenance is required! Simply brush the grass occasionally to keep fibers upright, remove debris like leaves, and rinse with water when needed. No mowing, watering, fertilizing, or pesticides required. This saves you significant time and money compared to natural grass.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">Can artificial grass be installed on any surface?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Yes! Our artificial grass can be installed on various surfaces including soil, concrete, decking, rooftops, and even indoor spaces. Our team assesses your specific site and recommends the best installation method to ensure optimal performance and longevity.
-                </div>
-            </details>
-
-            <details class="faq-item">
-                <summary>
-                    <span class="faq-icon">
-                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
-                    </span>
-                    <span class="faq-question">Do you offer free quotes and consultations?</span>
-                    <span class="faq-toggle">+</span>
-                </summary>
-                <div class="faq-answer">
-                    Yes, we provide completely free, no-obligation quotes and on-site consultations. Our experts will visit your property, assess your needs, measure the area, and provide a detailed quote with various turf options to suit your budget and requirements.
-                </div>
-            </details>
-        </div>
-    </section>
-
-    <!-- ============================================
-         CONTACT SECTION
-         ============================================ -->
-    <section class="contact" id="contact">
-        <div class="section-header">
-            <span class="section-tag">Get In Touch</span>
-            <h2>Let's Create Your Green Space</h2>
-            <p>Ready to transform your outdoor area? Contact us for a free consultation and quote.</p>
-        </div>
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h3>Reach Out to Us</h3>
-                <p>Have questions or ready to start your project? Our friendly team is here to help you every step of the way.</p>
-                <ul class="contact-details">
-                    <li>
-                        <span class="contact-details-icon">📍</span>
-                        <span>123 Green Street, Garden City, GC 12345</span>
-                    </li>
-                    <li>
-                        <span class="contact-details-icon">📞</span>
-                        <span>+1 (555) 123-4567</span>
-                    </li>
-                    <li>
-                        <span class="contact-details-icon">✉️</span>
-                        <span>hello@eazygreenturf.com</span>
-                    </li>
-                    <li>
-                        <span class="contact-details-icon">🕐</span>
-                        <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
-                    </li>
-                </ul>
-            </div>
-
-            <form class="contact-form" action="#" method="POST">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Doe" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo-wrapper">
-                <div class="footer-logo">
-                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf">
-                </div>
-                <p class="footer-tagline">"Transforming spaces, one lawn at a time"</p>
-            </div>
-
-            <p>Premium artificial grass solutions for modern living. Sustainable, beautiful, and built to last.</p>
-
-            <ul class="footer-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#work">Our Work</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
+    <div class="mobile-menu">
+        <div class="mobile-menu-content">
+            <ul class="mobile-menu-links">
+                <!-- Each link is a label that unchecks the menu-toggle when clicked -->
+                <li><label for="menu-toggle"><a href="#home">Home</a></label></li>
+                <li><label for="menu-toggle"><a href="#about">About</a></label></li>
+                <li><label for="menu-toggle"><a href="#features">Features</a></label></li>
+                <li><label for="menu-toggle"><a href="#work">Our Work</a></label></li>
+                <li><label for="menu-toggle"><a href="#compare">Compare</a></label></li>
+                <li><label for="menu-toggle"><a href="#faq">FAQ</a></label></li>
+                <li><label for="menu-toggle"><a href="#contact">Contact</a></label></li>
             </ul>
 
-            <div class="footer-contact-row">
-                <div class="footer-contact-item">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                        <circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    <span>123 Green Street, Garden City</span>
+            <!-- CTA button in mobile menu -->
+            <div class="mobile-menu-cta">
+                <label for="menu-toggle">
+                    <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                </label>
+            </div>
+
+            <!-- Quick contact info in mobile menu -->
+            <div class="mobile-menu-contact">
+                <p>📞 <a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                <p>✉️ <a href="mailto:hello@eazygreenturf.com">hello@eazygreenturf.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PAGE WRAPPER
+         Contains all page content
+         ============================================ -->
+    <div class="page-wrapper">
+
+        <!-- HERO SECTION -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf" class="hero-logo">
+                <span class="hero-tag">PREMIUM ARTIFICIAL GRASS</span>
+                <h1>Transform Your Space Into <span>Evergreen</span> Paradise</h1>
+                <p>Experience the beauty of a lush, green lawn all year round — no watering, no mowing, no hassle. Premium artificial turf crafted for homes, gardens, and commercial spaces.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
                 </div>
-                <div class="footer-contact-item">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                    </svg>
-                    <span>+1 (555) 123-4567</span>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="about" id="about">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/modern-australian-home-front-yard-artificial-turf-contemporary-residential-house-grass-lawn-clean-low-410765330.webp?v=1793296543" alt="Modern home with beautiful artificial grass front yard">
                 </div>
-                <div class="footer-contact-item">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    <span>hello@eazygreenturf.com</span>
+                <div class="about-text">
+                    <span class="section-tag">About Us</span>
+                    <h2>Bringing Nature's Beauty to Every Surface</h2>
+                    <p>At Eazy Green Turf, we believe every space deserves to look its best — without the constant upkeep. Our premium artificial grass solutions combine realistic aesthetics with unmatched durability.</p>
+                    <p>With over a decade of experience, we've helped thousands of homeowners, businesses, and sports facilities enjoy beautiful, low-maintenance green spaces that last for years.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>10+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat">
+                            <h3>5K+</h3>
+                            <p>Happy Clients</p>
+                        </div>
+                        <div class="stat">
+                            <h3>15+</h3>
+                            <p>Turf Varieties</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="features" id="features">
+            <div class="section-header">
+                <span class="section-tag">Why Choose Us</span>
+                <h2>Benefits That Make a Difference</h2>
+                <p>Discover why thousands of customers trust Eazy Green Turf for their landscaping needs.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                        </svg>
+                    </div>
+                    <h3>Water Saving</h3>
+                    <p>Reduce water usage by up to 100%. No irrigation needed — ever. Save money and the environment.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c.9 6.76-2.33 11.67-7.2 14.04A7 7 0 0 1 11 20z"/>
+                            <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
+                        </svg>
+                    </div>
+                    <h3>Always Green</h3>
+                    <p>Enjoy a vibrant, lush lawn all year round regardless of weather, season, or foot traffic.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3>UV Resistant</h3>
+                    <p>Advanced UV protection ensures your turf stays bright and doesn't fade under the sun.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="4" r="2"/>
+                            <circle cx="18" cy="8" r="2"/>
+                            <circle cx="4" cy="8" r="2"/>
+                            <circle cx="19" cy="15" r="2"/>
+                            <circle cx="5" cy="15" r="2"/>
+                            <path d="M12 18c-2.5 0-4.5 1.5-4.5 3.5 0 .83.67 1.5 1.5 1.5h6c.83 0 1.5-.67 1.5-1.5 0-2-2-3.5-4.5-3.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Pet Friendly</h3>
+                    <p>Safe for pets and kids. Easy to clean, non-toxic materials, and soft underfoot.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3>Easy Install</h3>
+                    <p>Professional installation in just one day. Minimal disruption to your daily routine.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="8" r="7"/>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                            <path d="M12 5v6M9.5 8l2.5 2.5L14.5 8"/>
+                        </svg>
+                    </div>
+                    <h3>15+ Year Warranty</h3>
+                    <p>Backed by an industry-leading 15+ year warranty. Quality you can trust for decades to come.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR WORK / PORTFOLIO SECTION -->
+        <section class="our-work" id="work">
+            <div class="section-header">
+                <span class="section-tag">Our Portfolio</span>
+                <h2>Recent Transformations</h2>
+                <p>Browse through some of our latest projects — click any project to view full details.</p>
+            </div>
+
+            <input type="checkbox" id="modal1" class="modal-toggle">
+            <input type="checkbox" id="modal2" class="modal-toggle">
+            <input type="checkbox" id="modal3" class="modal-toggle">
+            <input type="checkbox" id="modal4" class="modal-toggle">
+            <input type="checkbox" id="modal5" class="modal-toggle">
+
+            <div class="work-grid">
+                <label for="modal1" class="work-item">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado Project">
+                    <div class="work-overlay">
+                        <span class="view-hint">View Project →</span>
+                        <h3>Front Yard Coronado</h3>
+                        <p>Residential • Tracy, CA</p>
+                    </div>
+                </label>
+
+                <label for="modal2" class="work-item">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape Project">
+                    <div class="work-overlay">
+                        <span class="view-hint">View Project →</span>
+                        <h3>Garden Landscape</h3>
+                        <p>Residential • Backyard</p>
+                    </div>
+                </label>
+
+                <label for="modal3" class="work-item">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Space">
+                    <div class="work-overlay">
+                        <span class="view-hint">View Project →</span>
+                        <h3>Modern Outdoor Living</h3>
+                        <p>Residential • Patio</p>
+                    </div>
+                </label>
+
+                <label for="modal4" class="work-item">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Turf Installation">
+                    <div class="work-overlay">
+                        <span class="view-hint">View Project →</span>
+                        <h3>Commercial Landscape</h3>
+                        <p>Commercial • Office Complex</p>
+                    </div>
+                </label>
+
+                <label for="modal5" class="work-item">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Turf Project">
+                    <div class="work-overlay">
+                        <span class="view-hint">View Project →</span>
+                        <h3>Poolside Paradise</h3>
+                        <p>Residential • Pool Area</p>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Modal 1: Front Yard Coronado -->
+            <div class="project-modal modal-1">
+                <div class="modal-content">
+                    <label for="modal1" class="modal-close">✕</label>
+                    <div class="modal-hero">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado">
+                        <div class="modal-hero-overlay">
+                            <div class="modal-hero-text">
+                                <h2>Front Yard Coronado</h2>
+                                <p>📍 Tracy, California • Residential</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">Coronado Family</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">Tracy, CA</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Area</span>
+                                <span class="meta-value">850 sq ft</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">2 Days</span>
+                            </div>
+                        </div>
+
+                        <h3>Project Overview</h3>
+                        <p>The Coronado family wanted to transform their dull, patchy front yard into a welcoming, low-maintenance landscape that would boost curb appeal and save them hours of weekly upkeep. We installed our premium Eazy Green Turf across the entire front lawn, creating a lush, evergreen space that looks stunning year-round.</p>
+                        
+                        <h3>The Challenge</h3>
+                        <p>The existing natural grass was struggling with California's hot summers and water restrictions. Brown patches, uneven growth, and constant watering needs made the front yard an eyesore. The family was spending over 3 hours every weekend just on lawn maintenance.</p>
+
+                        <h3>Our Solution</h3>
+                        <p>We removed the old grass, prepared a proper drainage base, and installed our premium 40mm turf with natural thatch layer. The result is a beautiful, pet-friendly lawn that looks and feels like real grass — without any of the maintenance.</p>
+
+                        <div class="modal-gallery">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 1">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 2">
+                        </div>
+
+                        <h3>Features Installed</h3>
+                        <ul class="modal-features">
+                            <li>Premium 40mm Turf</li>
+                            <li>UV-Stabilized Fibers</li>
+                            <li>Drainage System</li>
+                            <li>Pet-Friendly Materials</li>
+                            <li>Natural Thatch Layer</li>
+                            <li>15-Year Warranty</li>
+                        </ul>
+
+                        <div class="modal-cta">
+                            <p>Love this transformation? Let's create something similar for your space!</p>
+                            <a href="#contact" class="btn btn-primary">Start Your Project</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2026 Eazy Green Turf. All rights reserved. | Crafted with 🌱 for a greener world.</p>
+            <!-- Modal 2: Garden Landscape -->
+            <div class="project-modal modal-2">
+                <div class="modal-content">
+                    <label for="modal2" class="modal-close">✕</label>
+                    <div class="modal-hero">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape">
+                        <div class="modal-hero-overlay">
+                            <div class="modal-hero-text">
+                                <h2>Garden Landscape</h2>
+                                <p>📍 Residential Backyard • Private Garden</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">Thompson Residence</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">Private Residence</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Area</span>
+                                <span class="meta-value">1,200 sq ft</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">3 Days</span>
+                            </div>
+                        </div>
+
+                        <h3>Project Overview</h3>
+                        <p>The Thompsons envisioned a serene backyard garden retreat where they could relax, entertain, and let their children play safely. We designed and installed a multi-zone artificial turf landscape that blends seamlessly with existing garden features.</p>
+                        
+                        <h3>The Challenge</h3>
+                        <p>The backyard had heavy shade from mature trees, making natural grass nearly impossible to maintain. Mud, bare patches, and constant reseeding were frustrating the family for years.</p>
+
+                        <h3>Our Solution</h3>
+                        <p>We installed our shade-optimized turf that thrives in low-light conditions. Combined with strategic landscaping and proper drainage, we created a beautiful, usable space the family enjoys every day.</p>
+
+                        <div class="modal-gallery">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 1">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
+                        </div>
+
+                        <h3>Features Installed</h3>
+                        <ul class="modal-features">
+                            <li>Shade-Optimized Turf</li>
+                            <li>Multi-Zone Layout</li>
+                            <li>Advanced Drainage</li>
+                            <li>Child-Safe Materials</li>
+                            <li>Custom Contours</li>
+                            <li>15-Year Warranty</li>
+                        </ul>
+
+                        <div class="modal-cta">
+                            <p>Ready to transform your backyard? Let's chat!</p>
+                            <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+
+            <!-- Modal 3: Modern Outdoor Living -->
+            <div class="project-modal modal-3">
+                <div class="modal-content">
+                    <label for="modal3" class="modal-close">✕</label>
+                    <div class="modal-hero">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Living">
+                        <div class="modal-hero-overlay">
+                            <div class="modal-hero-text">
+                                <h2>Modern Outdoor Living</h2>
+                                <p>📍 Contemporary Patio Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">Martinez Family</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Style</span>
+                                <span class="meta-value">Contemporary</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Area</span>
+                                <span class="meta-value">600 sq ft</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">1 Day</span>
+                            </div>
+                        </div>
+
+                        <h3>Project Overview</h3>
+                        <p>This modern patio project showcases how artificial turf can complement contemporary architecture. The clean lines and lush green surface create a stunning contrast with the home's minimalist design.</p>
+                        
+                        <h3>The Challenge</h3>
+                        <p>The clients wanted a modern outdoor entertaining space that required zero maintenance but looked impeccably manicured at all times — perfect for hosting guests year-round.</p>
+
+                        <h3>Our Solution</h3>
+                        <p>We used our short-pile premium turf with crisp edges and geometric patterns, creating a sleek, modern aesthetic that perfectly complements the home's architecture.</p>
+
+                        <div class="modal-gallery">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 1">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 2">
+                        </div>
+
+                        <h3>Features Installed</h3>
+                        <ul class="modal-features">
+                            <li>Short-Pile Premium Turf</li>
+                            <li>Geometric Design</li>
+                            <li>Seamless Integration</li>
+                            <li>Heavy Traffic Rated</li>
+                            <li>Quick-Dry Technology</li>
+                            <li>15-Year Warranty</li>
+                        </ul>
+
+                        <div class="modal-cta">
+                            <p>Want a modern outdoor space like this?</p>
+                            <a href="#contact" class="btn btn-primary">Start Your Project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal 4: Commercial Landscape -->
+            <div class="project-modal modal-4">
+                <div class="modal-content">
+                    <label for="modal4" class="modal-close">✕</label>
+                    <div class="modal-hero">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Landscape">
+                        <div class="modal-hero-overlay">
+                            <div class="modal-hero-text">
+                                <h2>Commercial Landscape</h2>
+                                <p>📍 Office Complex • Corporate Campus</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">TechHub Corporate</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Type</span>
+                                <span class="meta-value">Commercial</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Area</span>
+                                <span class="meta-value">5,000 sq ft</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">5 Days</span>
+                            </div>
+                        </div>
+
+                        <h3>Project Overview</h3>
+                        <p>A large-scale commercial installation for a tech company's corporate campus. We transformed multiple outdoor areas including common spaces, walkways, and relaxation zones into beautiful, low-maintenance green areas.</p>
+                        
+                        <h3>The Challenge</h3>
+                        <p>The company was spending over $15,000 annually on lawn maintenance, watering, and reseeding. High foot traffic areas were constantly worn and unsightly, creating a poor first impression for clients.</p>
+
+                        <h3>Our Solution</h3>
+                        <p>We installed our commercial-grade heavy-traffic turf across 5,000 square feet, designed to withstand constant use while maintaining its pristine appearance. The result? A 90% reduction in maintenance costs and a stunning campus that impresses visitors.</p>
+
+                        <div class="modal-gallery">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Project view 1">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 2">
+                        </div>
+
+                        <h3>Features Installed</h3>
+                        <ul class="modal-features">
+                            <li>Commercial-Grade Turf</li>
+                            <li>Heavy Traffic Rated</li>
+                            <li>Fire Retardant</li>
+                            <li>ADA Compliant</li>
+                            <li>Industrial Drainage</li>
+                            <li>15-Year Warranty</li>
+                        </ul>
+
+                        <div class="modal-cta">
+                            <p>Commercial project? We handle projects of any scale.</p>
+                            <a href="#contact" class="btn btn-primary">Request Commercial Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal 5: Poolside Paradise -->
+            <div class="project-modal modal-5">
+                <div class="modal-content">
+                    <label for="modal5" class="modal-close">✕</label>
+                    <div class="modal-hero">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Paradise">
+                        <div class="modal-hero-overlay">
+                            <div class="modal-hero-text">
+                                <h2>Poolside Paradise</h2>
+                                <p>📍 Residential Pool Area</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">Johnson Family</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">Pool Surround</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Area</span>
+                                <span class="meta-value">450 sq ft</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Duration</span>
+                                <span class="meta-value">1 Day</span>
+                            </div>
+                        </div>
+
+                        <h3>Project Overview</h3>
+                        <p>The Johnsons wanted to eliminate the muddy, slippery mess around their pool that formed after every swim. Our poolside turf installation provides a safe, beautiful, and always-clean surface around their swimming area.</p>
+                        
+                        <h3>The Challenge</h3>
+                        <p>Traditional pool surrounds get slippery, muddy, and track dirt into the pool. The family was constantly cleaning and dealing with unsafe wet surfaces around the pool edge.</p>
+
+                        <h3>Our Solution</h3>
+                        <p>We installed our specialized pool-grade turf with superior drainage and non-slip backing. The surface stays cool underfoot, drains instantly, and never gets muddy — making the pool area safer and more enjoyable for the whole family.</p>
+
+                        <div class="modal-gallery">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 1">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
+                        </div>
+
+                        <h3>Features Installed</h3>
+                        <ul class="modal-features">
+                            <li>Pool-Grade Turf</li>
+                            <li>Non-Slip Backing</li>
+                            <li>Instant Drainage</li>
+                            <li>Cool-Touch Technology</li>
+                            <li>Chlorine Resistant</li>
+                            <li>15-Year Warranty</li>
+                        </ul>
+
+                        <div class="modal-cta">
+                            <p>Transform your pool area into a paradise!</p>
+                            <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPARISON SECTION -->
+        <section class="comparison" id="compare">
+            <div class="section-header">
+                <span class="section-tag">The Difference</span>
+                <h2>Natural vs Artificial Grass</h2>
+                <p>See why more homeowners are making the switch to artificial turf.</p>
+            </div>
+            <div class="comparison-grid">
+                <div class="comparison-card natural">
+                    <div class="comparison-image">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/dry-and-damaged-grass-needs-lawn-care-royalty-free-image-1747944970.avif?v=1793297897" alt="Natural grass needing care">
+                        <span class="comparison-badge badge-natural">Natural Grass</span>
+                    </div>
+                    <div class="comparison-content">
+                        <h3>Natural Grass</h3>
+                        <ul>
+                            <li>Requires weekly mowing</li>
+                            <li>High water consumption</li>
+                            <li>Needs fertilizers & pesticides</li>
+                            <li>Brown patches in summer</li>
+                            <li>Muddy in rainy seasons</li>
+                            <li>High maintenance cost</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <div class="comparison-image">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/70123b65a52a1199917a36b68f5a62da.jpg?v=1793541827" alt="Premium artificial grass">
+                        <span class="comparison-badge badge-artificial">Eazy Green Turf</span>
+                    </div>
+                    <div class="comparison-content">
+                        <h3>Artificial Grass</h3>
+                        <ul>
+                            <li>Zero mowing required</li>
+                            <li>No water needed</li>
+                            <li>Eco-friendly & chemical-free</li>
+                            <li>Always green, all seasons</li>
+                            <li>Perfect drainage system</li>
+                            <li>Low lifetime cost</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="faq" id="faq">
+            <div class="section-header">
+                <span class="section-tag">FAQ</span>
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about our artificial grass solutions.</p>
+            </div>
+            <div class="faq-container">
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">How long does artificial grass last?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Our premium artificial grass is designed to last between 15-20 years with proper care. We back our products with an industry-leading 15+ year warranty, ensuring you get long-lasting value for your investment. The UV-stabilized fibers resist fading and wear, keeping your lawn looking fresh year after year.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">Is artificial grass safe for children and pets?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Absolutely! Our artificial turf is made from non-toxic, lead-free materials that are completely safe for children and pets. It's soft underfoot, hypoallergenic, and free from harmful chemicals. Pets love playing on it, and cleanup is easy — just rinse with water.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">How is the artificial grass installed?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Our professional installation process includes: site preparation, base installation with proper drainage, laying the turf, securing seams, and adding infill for a natural feel. Most residential installations are completed in just one day. Our team handles everything from start to finish.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">Does artificial grass get hot in summer?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Like any surface exposed to direct sunlight, artificial grass can warm up. However, our premium turf features advanced cooling technology that keeps it significantly cooler than standard artificial grass. A quick spray of water on hot days instantly cools the surface, making it comfortable to walk on.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">What maintenance does artificial grass require?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Minimal maintenance is required! Simply brush the grass occasionally to keep fibers upright, remove debris like leaves, and rinse with water when needed. No mowing, watering, fertilizing, or pesticides required. This saves you significant time and money compared to natural grass.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">Can artificial grass be installed on any surface?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Yes! Our artificial grass can be installed on various surfaces including soil, concrete, decking, rooftops, and even indoor spaces. Our team assesses your specific site and recommends the best installation method to ensure optimal performance and longevity.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>
+                        <span class="faq-icon">
+                            <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="">
+                        </span>
+                        <span class="faq-question">Do you offer free quotes and consultations?</span>
+                        <span class="faq-toggle">+</span>
+                    </summary>
+                    <div class="faq-answer">
+                        Yes, we provide completely free, no-obligation quotes and on-site consultations. Our experts will visit your property, assess your needs, measure the area, and provide a detailed quote with various turf options to suit your budget and requirements.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact" id="contact">
+            <div class="section-header">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Let's Create Your Green Space</h2>
+                <p>Ready to transform your outdoor area? Contact us for a free consultation and quote.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Reach Out to Us</h3>
+                    <p>Have questions or ready to start your project? Our friendly team is here to help you every step of the way.</p>
+                    <ul class="contact-details">
+                        <li>
+                            <span class="contact-details-icon">📍</span>
+                            <span>123 Green Street, Garden City, GC 12345</span>
+                        </li>
+                        <li>
+                            <span class="contact-details-icon">📞</span>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                        <li>
+                            <span class="contact-details-icon">✉️</span>
+                            <span>hello@eazygreenturf.com</span>
+                        </li>
+                        <li>
+                            <span class="contact-details-icon">🕐</span>
+                            <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo-wrapper">
+                    <div class="footer-logo">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf">
+                    </div>
+                    <p class="footer-tagline">"Transforming spaces, one lawn at a time"</p>
+                </div>
+
+                <p>Premium artificial grass solutions for modern living. Sustainable, beautiful, and built to last.</p>
+
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#work">Our Work</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="footer-contact-row">
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span>123 Green Street, Garden City</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <span>hello@eazygreenturf.com</span>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Eazy Green Turf. All rights reserved. | Crafted with 🌱 for a greener world.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- End of page-wrapper -->
 
 </body>
 </html>
